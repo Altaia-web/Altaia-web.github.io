@@ -1035,16 +1035,88 @@
       50%       { opacity: 0.4; transform: scale(0.65); }
     }
 
-    /* ─────────────────────────────── FAQ ─── */
-    #faq { border-bottom: 1px solid var(--line); }
+    /* ─────────────────────────────── FAQ OVERLAY ─── */
+    .faq-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
 
-    .faq-grid {
-      max-width: 780px;
+    .faq-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .faq-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(14,14,13,0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .faq-panel {
+      position: relative;
+      background: var(--paper);
+      width: 92%;
+      max-width: 720px;
+      max-height: 85vh;
+      border-radius: 20px;
+      overflow-y: auto;
+      padding: 48px 44px 40px;
+      transform: translateY(30px);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      box-shadow: 0 24px 80px rgba(14,14,13,0.18);
+    }
+
+    .faq-overlay.active .faq-panel {
+      transform: translateY(0);
+    }
+
+    .faq-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--line);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--muted);
+      transition: border-color 0.2s, color 0.2s;
+      font-family: inherit;
+    }
+    .faq-close:hover { border-color: var(--ink); color: var(--ink); }
+
+    .faq-header {
+      margin-bottom: 36px;
+    }
+
+    .faq-header .label {
+      margin-bottom: 12px;
+    }
+
+    .faq-header h2 {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      font-weight: 300;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      color: var(--ink);
     }
 
     .faq-item {
       border-bottom: 1px solid var(--line);
-      padding: 28px 0;
     }
     .faq-item:last-child { border-bottom: none; }
 
@@ -1059,34 +1131,39 @@
       width: 100%;
       text-align: left;
       font-family: inherit;
-      padding: 0;
+      padding: 22px 0;
     }
 
     .faq-question h3 {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 500;
       color: var(--ink);
-      line-height: 1.4;
+      line-height: 1.45;
+    }
+
+    .faq-item.open .faq-question h3 {
+      color: var(--cobalt);
     }
 
     .faq-toggle {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       border: 1.5px solid var(--line);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      font-size: 18px;
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+      font-size: 16px;
       color: var(--muted);
     }
 
     .faq-item.open .faq-toggle {
       transform: rotate(45deg);
       border-color: var(--cobalt);
-      color: var(--cobalt);
+      background: var(--cobalt);
+      color: #fff;
     }
 
     .faq-answer {
@@ -1103,8 +1180,8 @@
       font-size: 15px;
       font-weight: 300;
       color: var(--muted);
-      line-height: 1.7;
-      padding-top: 16px;
+      line-height: 1.75;
+      padding: 0 0 22px;
     }
 
     /* ─────────────────────────────── CONTACTO ─── */
@@ -1651,9 +1728,10 @@
       .about-body p:nth-child(n+2) { display: none; }
 
       /* ── Contacto ── */
-      #faq { padding: 36px 5%; }
-      .faq-question h3 { font-size: 15px; }
-      .faq-answer p { font-size: 14px; }
+      .faq-panel { padding: 32px 20px 28px; border-radius: 14px; }
+      .faq-question h3 { font-size: 14px; }
+      .faq-answer p { font-size: 13px; }
+      .faq-close { top: 14px; right: 14px; width: 32px; height: 32px; }
 
       #contacto { padding: 36px 5%; }
       .contact-title { font-size: 1.8rem; margin-bottom: 12px; }
@@ -1690,6 +1768,7 @@
     <li><a href="#casos">Casos reales</a></li>
     <li><a href="#metodologia">Metodología</a></li>
     <li><a href="#sobre">Nosotros</a></li>
+    <li><a href="#" id="faq-nav-link">FAQ</a></li>
   </ul>
 
   <a href="#contacto" class="nav-cta">Hablemos</a>
@@ -2010,77 +2089,6 @@
         <p>Existimos en el espacio entre la inteligencia artificial y el negocio real. No vendemos tecnología. Construimos arquitecturas de proceso que <strong>multiplican tu capacidad de acción</strong> mientras tú te enfocas en lo que realmente mueve la aguja.</p>
         <p>Trabajamos con empresas que quieren <strong>ganar capacidad operativa sin ampliar plantilla.</strong> Analizamos vuestra operativa y construimos lo que tiene sentido para vuestro equipo. Diseñamos sistemas a medida para que tu talento humano <strong>deje de ejecutar tareas y empiece a tomar decisiones.</strong></p>
         <p>Desde la primera conversación hasta el sistema en producción, alguien del equipo está disponible. Así de simple.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ─── FAQ ────────────────────────────────────────────── -->
-<section id="faq" aria-label="Preguntas frecuentes sobre automatización con IA">
-  <div class="wrap">
-    <span class="label reveal">Preguntas frecuentes</span>
-    <h2 class="section-title reveal">Lo que las empresas nos preguntan<br>antes de automatizar</h2>
-
-    <div class="faq-grid">
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <h3>¿Qué procesos empresariales se pueden automatizar con inteligencia artificial?</h3>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>Prácticamente cualquier tarea repetitiva: atención telefónica, gestión de reservas, clasificación de emails, generación de presupuestos, seguimiento de leads, conciliación de facturas, onboarding de empleados y más. Si tu equipo lo hace siguiendo un patrón, se puede automatizar.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <h3>¿Qué es un agente telefónico con IA y cómo funciona?</h3>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>Es un sistema de inteligencia artificial que atiende llamadas telefónicas de forma autónoma. Entiende lo que dice el interlocutor, responde con naturalidad y ejecuta acciones: agendar citas, resolver dudas, tomar pedidos o derivar al equipo cuando es necesario. Funciona 24 horas, 7 días a la semana.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <h3>¿Cuánto cuesta automatizar procesos con IA?</h3>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>Cada proyecto es diferente. El coste depende de la complejidad del proceso, las integraciones necesarias y el volumen de operaciones. Ofrecemos una primera llamada sin coste donde analizamos tu caso y te damos una estimación clara antes de empezar.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <h3>¿Necesito conocimientos técnicos o cambiar de software?</h3>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>No. Nuestras soluciones se integran con las herramientas que ya usas: tu teléfono, email, CRM, calendario o ERP. No necesitas cambiar de software ni formar a tu equipo. Nosotros nos encargamos de todo el desarrollo técnico.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <h3>¿Cuánto tiempo se tarda en tener la automatización funcionando?</h3>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>La mayoría de proyectos están operativos en 2 a 4 semanas. El proceso incluye diagnóstico de la operativa, diseño de la solución, construcción e integración, y puesta en marcha con seguimiento continuo para ajustar lo que haga falta.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          <h3>¿Qué tipo de empresas trabajan con Altaia?</h3>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>Trabajamos con pymes y empresas de servicios en España: clínicas, restaurantes, despachos profesionales, inmobiliarias, empresas de logística, academias y más. Si tienes un equipo que dedica tiempo a tareas repetitivas, podemos ayudarte a liberar esas horas.</p>
-        </div>
       </div>
     </div>
   </div>
@@ -2489,13 +2497,108 @@
 })();
 </script>
 
+<!-- ─── FAQ OVERLAY ─────────────────────────────────────── -->
+<div class="faq-overlay" id="faq-overlay" role="dialog" aria-label="Preguntas frecuentes sobre automatización con IA">
+  <div class="faq-backdrop"></div>
+  <div class="faq-panel">
+    <button class="faq-close" aria-label="Cerrar">&#10005;</button>
+
+    <div class="faq-header">
+      <span class="label">Preguntas frecuentes</span>
+      <h2>Lo que las empresas nos preguntan<br>antes de automatizar</h2>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Qué procesos empresariales se pueden automatizar con inteligencia artificial?</h3>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Prácticamente cualquier tarea repetitiva: atención telefónica, gestión de reservas, clasificación de emails, generación de presupuestos, seguimiento de leads, conciliación de facturas, onboarding de empleados y más. Si tu equipo lo hace siguiendo un patrón, se puede automatizar.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Qué es un agente telefónico con IA y cómo funciona?</h3>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Es un sistema de inteligencia artificial que atiende llamadas telefónicas de forma autónoma. Entiende lo que dice el interlocutor, responde con naturalidad y ejecuta acciones: agendar citas, resolver dudas, tomar pedidos o derivar al equipo cuando es necesario. Funciona 24 horas, 7 días a la semana.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Cuánto cuesta automatizar procesos con IA?</h3>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Cada proyecto es diferente. El coste depende de la complejidad del proceso, las integraciones necesarias y el volumen de operaciones. Ofrecemos una primera llamada sin coste donde analizamos tu caso y te damos una estimación clara antes de empezar.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Necesito conocimientos técnicos o cambiar de software?</h3>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>No. Nuestras soluciones se integran con las herramientas que ya usas: tu teléfono, email, CRM, calendario o ERP. No necesitas cambiar de software ni formar a tu equipo. Nosotros nos encargamos de todo el desarrollo técnico.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Cuánto tiempo se tarda en tener la automatización funcionando?</h3>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>La mayoría de proyectos están operativos en 2 a 4 semanas. El proceso incluye diagnóstico de la operativa, diseño de la solución, construcción e integración, y puesta en marcha con seguimiento continuo para ajustar lo que haga falta.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <h3>¿Qué tipo de empresas trabajan con Altaia?</h3>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Trabajamos con pymes y empresas de servicios en España: clínicas, restaurantes, despachos profesionales, inmobiliarias, empresas de logística, academias y más. Si tienes un equipo que dedica tiempo a tareas repetitivas, podemos ayudarte a liberar esas horas.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
-  document.querySelectorAll('.faq-question').forEach(function(btn){
+  var overlay = document.getElementById('faq-overlay');
+  var navLink = document.getElementById('faq-nav-link');
+  var closeBtn = overlay.querySelector('.faq-close');
+  var backdrop = overlay.querySelector('.faq-backdrop');
+
+  function openFaq(e) {
+    if(e) e.preventDefault();
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFaq() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  navLink.addEventListener('click', openFaq);
+  closeBtn.addEventListener('click', closeFaq);
+  backdrop.addEventListener('click', closeFaq);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('active')) closeFaq();
+  });
+
+  overlay.querySelectorAll('.faq-question').forEach(function(btn){
     btn.addEventListener('click', function(){
       var item = btn.closest('.faq-item');
       var isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(function(other){
+      overlay.querySelectorAll('.faq-item.open').forEach(function(other){
         other.classList.remove('open');
         other.querySelector('.faq-question').setAttribute('aria-expanded','false');
       });
