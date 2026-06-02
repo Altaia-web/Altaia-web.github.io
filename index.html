@@ -103,34 +103,50 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "¿Qué es la automatización de procesos con IA?",
+            "name": "¿Qué procesos empresariales se pueden automatizar con inteligencia artificial?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Es el uso de inteligencia artificial para ejecutar tareas empresariales de forma autónoma: atender llamadas, gestionar reservas, clasificar documentos, responder consultas y más. El objetivo es liberar tiempo del equipo sin perder calidad ni control."
+              "text": "Prácticamente cualquier tarea repetitiva: atención telefónica, gestión de reservas, clasificación de emails, generación de presupuestos, seguimiento de leads, conciliación de facturas, onboarding de empleados y más. Si tu equipo lo hace siguiendo un patrón, se puede automatizar."
             }
           },
           {
             "@type": "Question",
-            "name": "¿Qué tipo de empresas pueden beneficiarse de la automatización con IA?",
+            "name": "¿Qué es un agente telefónico con IA y cómo funciona?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Cualquier empresa con procesos repetitivos: clínicas, restaurantes, despachos, inmobiliarias, empresas de servicios y más. Si tu equipo dedica tiempo a tareas que siguen un patrón, se pueden automatizar."
+              "text": "Es un sistema de inteligencia artificial que atiende llamadas telefónicas de forma autónoma. Entiende lo que dice el interlocutor, responde con naturalidad y ejecuta acciones: agendar citas, resolver dudas, tomar pedidos o derivar al equipo cuando es necesario. Funciona 24 horas, 7 días a la semana."
             }
           },
           {
             "@type": "Question",
-            "name": "¿Cuánto tiempo se tarda en implementar una automatización?",
+            "name": "¿Cuánto cuesta automatizar procesos con IA?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Depende del proyecto, pero la mayoría de implementaciones están operativas en 2 a 4 semanas. Incluye diagnóstico, diseño, construcción y puesta en marcha con seguimiento continuo."
+              "text": "Cada proyecto es diferente. El coste depende de la complejidad del proceso, las integraciones necesarias y el volumen de operaciones. Ofrecemos una primera llamada sin coste donde analizamos tu caso y te damos una estimación clara antes de empezar."
             }
           },
           {
             "@type": "Question",
-            "name": "¿Necesito conocimientos técnicos para usar los agentes de IA?",
+            "name": "¿Necesito conocimientos técnicos o cambiar de software?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. Nuestras soluciones se integran con las herramientas que ya usas (teléfono, email, CRM, calendario). No necesitas cambiar de software ni formar a tu equipo."
+              "text": "No. Nuestras soluciones se integran con las herramientas que ya usas: tu teléfono, email, CRM, calendario o ERP. No necesitas cambiar de software ni formar a tu equipo. Nosotros nos encargamos de todo el desarrollo técnico."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuánto tiempo se tarda en tener la automatización funcionando?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "La mayoría de proyectos están operativos en 2 a 4 semanas. El proceso incluye diagnóstico de la operativa, diseño de la solución, construcción e integración, y puesta en marcha con seguimiento continuo para ajustar lo que haga falta."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué tipo de empresas trabajan con Altaia?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Trabajamos con pymes y empresas de servicios en España: clínicas, restaurantes, despachos profesionales, inmobiliarias, empresas de logística, academias y más. Si tienes un equipo que dedica tiempo a tareas repetitivas, podemos ayudarte a liberar esas horas."
             }
           }
         ]
@@ -1019,6 +1035,78 @@
       50%       { opacity: 0.4; transform: scale(0.65); }
     }
 
+    /* ─────────────────────────────── FAQ ─── */
+    #faq { border-bottom: 1px solid var(--line); }
+
+    .faq-grid {
+      max-width: 780px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--line);
+      padding: 28px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      gap: 16px;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      padding: 0;
+    }
+
+    .faq-question h3 {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .faq-toggle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .faq-item.open .faq-toggle {
+      transform: rotate(45deg);
+      border-color: var(--cobalt);
+      color: var(--cobalt);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+
+    .faq-answer p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      padding-top: 16px;
+    }
+
     /* ─────────────────────────────── CONTACTO ─── */
     #contacto { background: var(--ink); }
     #contacto .label { color: #3a3a38; }
@@ -1563,6 +1651,10 @@
       .about-body p:nth-child(n+2) { display: none; }
 
       /* ── Contacto ── */
+      #faq { padding: 36px 5%; }
+      .faq-question h3 { font-size: 15px; }
+      .faq-answer p { font-size: 14px; }
+
       #contacto { padding: 36px 5%; }
       .contact-title { font-size: 1.8rem; margin-bottom: 12px; }
       .contact-sub { font-size: 13px; margin-bottom: 24px; }
@@ -1918,6 +2010,77 @@
         <p>Existimos en el espacio entre la inteligencia artificial y el negocio real. No vendemos tecnología. Construimos arquitecturas de proceso que <strong>multiplican tu capacidad de acción</strong> mientras tú te enfocas en lo que realmente mueve la aguja.</p>
         <p>Trabajamos con empresas que quieren <strong>ganar capacidad operativa sin ampliar plantilla.</strong> Analizamos vuestra operativa y construimos lo que tiene sentido para vuestro equipo. Diseñamos sistemas a medida para que tu talento humano <strong>deje de ejecutar tareas y empiece a tomar decisiones.</strong></p>
         <p>Desde la primera conversación hasta el sistema en producción, alguien del equipo está disponible. Así de simple.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── FAQ ────────────────────────────────────────────── -->
+<section id="faq" aria-label="Preguntas frecuentes sobre automatización con IA">
+  <div class="wrap">
+    <span class="label reveal">Preguntas frecuentes</span>
+    <h2 class="section-title reveal">Lo que las empresas nos preguntan<br>antes de automatizar</h2>
+
+    <div class="faq-grid">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <h3>¿Qué procesos empresariales se pueden automatizar con inteligencia artificial?</h3>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Prácticamente cualquier tarea repetitiva: atención telefónica, gestión de reservas, clasificación de emails, generación de presupuestos, seguimiento de leads, conciliación de facturas, onboarding de empleados y más. Si tu equipo lo hace siguiendo un patrón, se puede automatizar.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <h3>¿Qué es un agente telefónico con IA y cómo funciona?</h3>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Es un sistema de inteligencia artificial que atiende llamadas telefónicas de forma autónoma. Entiende lo que dice el interlocutor, responde con naturalidad y ejecuta acciones: agendar citas, resolver dudas, tomar pedidos o derivar al equipo cuando es necesario. Funciona 24 horas, 7 días a la semana.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <h3>¿Cuánto cuesta automatizar procesos con IA?</h3>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Cada proyecto es diferente. El coste depende de la complejidad del proceso, las integraciones necesarias y el volumen de operaciones. Ofrecemos una primera llamada sin coste donde analizamos tu caso y te damos una estimación clara antes de empezar.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <h3>¿Necesito conocimientos técnicos o cambiar de software?</h3>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>No. Nuestras soluciones se integran con las herramientas que ya usas: tu teléfono, email, CRM, calendario o ERP. No necesitas cambiar de software ni formar a tu equipo. Nosotros nos encargamos de todo el desarrollo técnico.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <h3>¿Cuánto tiempo se tarda en tener la automatización funcionando?</h3>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>La mayoría de proyectos están operativos en 2 a 4 semanas. El proceso incluye diagnóstico de la operativa, diseño de la solución, construcción e integración, y puesta en marcha con seguimiento continuo para ajustar lo que haga falta.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <h3>¿Qué tipo de empresas trabajan con Altaia?</h3>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Trabajamos con pymes y empresas de servicios en España: clínicas, restaurantes, despachos profesionales, inmobiliarias, empresas de logística, academias y más. Si tienes un equipo que dedica tiempo a tareas repetitivas, podemos ayudarte a liberar esas horas.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -2321,6 +2484,25 @@
     }).finally(function() {
       btn.textContent = originalText;
       btn.disabled = false;
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('.faq-question').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = btn.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(other){
+        other.classList.remove('open');
+        other.querySelector('.faq-question').setAttribute('aria-expanded','false');
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+      }
     });
   });
 })();
