@@ -533,6 +533,10 @@
     }
     .nav-links a:hover { color: var(--ink); }
 
+    .nav-faq-mobile {
+      display: none;
+    }
+
     .nav-cta {
       background: var(--cobalt);
       color: var(--paper);
@@ -1429,6 +1433,20 @@
       section { padding: 36px 5%; }
       nav { padding: 0 5%; }
       .nav-links { display: none; }
+      .nav-faq-mobile {
+        display: block;
+        font-family: var(--sans);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--muted);
+        text-decoration: none;
+        padding: 8px 14px;
+        border: 1.5px solid var(--line);
+        border-radius: 20px;
+        transition: color 0.2s, border-color 0.2s;
+        margin-left: auto;
+      }
+      .nav-faq-mobile:hover { color: var(--ink); border-color: var(--ink); }
 
       /* ── Hero ── */
       #hero {
@@ -1771,6 +1789,7 @@
     <li><a href="#" id="faq-nav-link">FAQ</a></li>
   </ul>
 
+  <a href="#" class="nav-faq-mobile" id="faq-nav-mobile">FAQ</a>
   <a href="#contacto" class="nav-cta">Hablemos</a>
 </nav>
 </header>
@@ -2587,7 +2606,9 @@
     document.body.style.overflow = '';
   }
 
+  var navMobile = document.getElementById('faq-nav-mobile');
   navLink.addEventListener('click', openFaq);
+  navMobile.addEventListener('click', openFaq);
   closeBtn.addEventListener('click', closeFaq);
   backdrop.addEventListener('click', closeFaq);
   document.addEventListener('keydown', function(e){
